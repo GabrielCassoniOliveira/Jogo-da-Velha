@@ -1,0 +1,105 @@
+#include <stdio.h>
+int l, c;
+void exibirTabuleiro(char tabuleiro[3][3]) {
+    printf("\n 0   1   2\n\n");
+    for(l = 0; l < 3; l++) {
+        for(c = 0; c < 3; c++) {
+            printf(" %c ", tabuleiro[l][c]);
+            if(c < 2)
+                printf("|");
+            if(c == 2)
+                printf("  %d", l);
+        }
+        if(l < 2)
+            printf("\n---|---|---");
+        printf("\n");
+    }
+}
+
+int main(){
+    // Estrutura do jogo
+    char tabuleiro[3][3];
+    int l, c, linha, coluna, jogador = 1, g = 0, j = 0;
+
+    // Inicializa o tabuleiro com espaços em branco
+    for(l = 0; l < 3; l++) {
+        for(c = 0; c < 3; c++) {
+            tabuleiro[l][c] = ' ';
+        }
+    }
+
+    do {
+        exibirTabuleiro(tabuleiro);
+
+        // Coordenadas do jogador
+        do {
+            printf("\nJogador %d entre primeiramente com a linha e depois com a coluna (Ex: 0 2) para jogar: ", jogador);
+            scanf("%d%d", &linha, &coluna);
+        } while(linha < 0 || linha > 2 || coluna < 0 || coluna > 2 || tabuleiro[linha][coluna] != ' ');
+
+        // Coloca coordenada no tabuleiro
+        if(jogador == 1) {
+            tabuleiro[linha][coluna] = '0';
+            jogador++;
+        } else {
+            tabuleiro[linha][coluna] = 'X';
+            jogador = 1;
+        }
+        j++;
+
+        // Jogador ganhou na linha
+        if((tabuleiro[0][0] == '0' && tabuleiro[0][1] == '0' && tabuleiro[0][2] == '0') || 
+           (tabuleiro[1][0] == '0' && tabuleiro[1][1] == '0' && tabuleiro[1][2] == '0') || 
+           (tabuleiro[2][0] == '0' && tabuleiro[2][1] == '0' && tabuleiro[2][2] == '0')) {
+            printf("\nO jogador 1 venceu!\n");
+            g = 1;
+        }
+
+        if((tabuleiro[0][0] == 'X' && tabuleiro[0][1] == 'X' && tabuleiro[0][2] == 'X') || 
+           (tabuleiro[1][0] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[1][2] == 'X') || 
+           (tabuleiro[2][0] == 'X' && tabuleiro[2][1] == 'X' && tabuleiro[2][2] == 'X')) {
+            printf("\nO jogador 2 venceu!\n");
+            g = 1;
+        }
+
+        // Jogador ganhou na coluna
+        if((tabuleiro[0][0] == '0' && tabuleiro[1][0] == '0' && tabuleiro[2][0] == '0') ||
+           (tabuleiro[0][1] == '0' && tabuleiro[1][1] == '0' && tabuleiro[2][1] == '0') ||
+           (tabuleiro[0][2] == '0' && tabuleiro[1][2] == '0' && tabuleiro[2][2] == '0')) {
+            printf("\nO jogador 1 venceu!\n");
+            g = 1;
+        }
+
+        if((tabuleiro[0][0] == 'X' && tabuleiro[1][0] == 'X' && tabuleiro[2][0] == 'X') ||
+           (tabuleiro[0][1] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[2][1] == 'X') ||
+           (tabuleiro[0][2] == 'X' && tabuleiro[1][2] == 'X' && tabuleiro[2][2] == 'X')) {
+            printf("\nO jogador 2 venceu!\n");
+            g = 1;
+        }   
+
+        // Jogador ganhou na diagonal
+        if((tabuleiro[0][0] == '0' && tabuleiro[1][1] == '0' && tabuleiro[2][2] == '0') ||
+           (tabuleiro[0][2] == '0' && tabuleiro[1][1] == '0' && tabuleiro[2][0] == '0')) {
+            printf("\nO jogador 1 venceu!\n");
+            g = 1;
+        }
+
+        if((tabuleiro[0][0] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[2][2] == 'X') ||
+           (tabuleiro[0][2] == 'X' && tabuleiro[1][1] == 'X' && tabuleiro[2][0] == 'X')) {
+            printf("\nO jogador 2 venceu!\n");
+            g = 1;
+        }
+
+    } while(g == 0 && j <= 9);
+
+    // Exibir o tabuleiro final
+    exibirTabuleiro(tabuleiro);
+
+    if(g == 0) {
+        printf("\nEmpate, nenhum dos jogadores venceram\n");
+    }
+
+    printf("\nDesenvolvedores: Mauricio Nobrega e Gabriel Cassoni\n");
+
+    return 0;
+}
